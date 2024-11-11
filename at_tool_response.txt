@@ -1,0 +1,101 @@
+Prompt: Polynomial Regression Model and Sigmoidal and Gaussian Models examples
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import make_pipeline
+
+# Generate sample data
+np.random.seed(0)
+x = np.sort(np.random.rand(50, 1) * 10)
+y = 3 - 1.5 * x + 0.5 * x**2 + np.random.normal(0, 1, x.shape)
+
+# Fit polynomial regression model of degree 2
+degree = 2
+model = make_pipeline(PolynomialFeatures(degree), LinearRegression())
+model.fit(x, y)
+y_pred = model.predict(x)
+
+# Plot results
+plt.scatter(x, y, color='blue', label='Data')
+plt.plot(x, y_pred, color='red', label='Polynomial Fit')
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.show()
+
+
+from scipy.optimize import curve_fit
+
+# Define the sigmoid function
+def sigmoid(x, L, k, x0):
+    return L / (1 + np.exp(-k * (x - x0)))
+
+# Generate sample data
+x = np.linspace(-10, 10, 100)
+y = sigmoid(x, L=1, k=1, x0=0) + np.random.normal(0, 0.05, x.size)
+
+# Fit sigmoid model to data
+params, _ = curve_fit(sigmoid, x, y, p0=[1, 1, 0])
+L, k, x0 = params
+
+# Plot results
+plt.scatter(x, y, color='blue', label='Data')
+plt.plot(x, sigmoid(x, L, k, x0), color='red', label='Sigmoidal Fit')
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.show()
+
+
+# Define the Gaussian function
+def gaussian(x, a, b, c):
+    return a * np.exp(-((x - b) ** 2) / (2 * c ** 2))
+
+# Generate sample data
+x = np.linspace(-10, 10, 100)
+y = gaussian(x, a=1, b=0, c=2) + np.random.normal(0, 0.05, x.size)
+
+# Fit Gaussian model to data
+params, _ = curve_fit(gaussian, x, y, p0=[1, 0, 1])
+a, b, c = params
+
+# Plot results
+plt.scatter(x, y, color='blue', label='Data')
+plt.plot(x, gaussian(x, a, b, c), color='red', label='Gaussian Fit')
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.show()
+
+
+These examples show how to fit Polynomial, Sigmoidal, and Gaussian models to data using Python. 
+Each approach is suitable for different types of relationships between variables and 
+can be adapted to model SBP and DBP if those measurements follow similar distributions 
+or behaviors.
+
+Prompt: How can we set curve fit boundaries, how can we decide that 
+
+Setting boundaries in curve fitting helps to constrain the range of the parameters, 
+which can improve the accuracy and stability of the fit, especially when you have prior 
+knowledge of reasonable parameter values. In Python, using curve_fit from scipy.optimize, 
+you can specify bounds for each parameter by passing a bounds argument.
+
+params, _ = curve_fit(model_function, x_data, y_data, bounds=([lower1, lower2, ...], [upper1, upper2, ...]))
+
+Deciding Boundary Values
+To decide boundaries, consider:
+
+- Domain Knowledge: If you know typical ranges for parameters, use them. 
+  For example, in biological models, growth rates and maximum values might have known reasonable limits.
+
+- Physical Constraints: Some parameters cannot be negative, such as concentrations, 
+  lengths, or counts. For instance, setting a lower bound of 0 can prevent negative values.
+
+- Empirical Testing: Test the model on a sample of the data to estimate initial parameter 
+ranges.
+
+- Data Range: If fitting a curve that grows asymptotically, the L parameter (maximum) could be bounded based on observed data maxima. For example, if your y-values don’t exceed 100, you might set an upper bound near this value.
+
+
