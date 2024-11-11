@@ -11,9 +11,8 @@
 - Logistic regression classification showed better reliability with balanced data, achieving moderate performance in distinguishing sexes.
 
 <p align="center">
-  <img src="https://github.com/SumonKantiDey/BMI500_Week11/blob/main/images/DBP_vs_Age.png" width="30%">
-  <img src="https://github.com/SumonKantiDey/BMI500_Week11/blob/main/images/SBP_vs_Age.png"width="30%">
-  <img src="https://github.com/SumonKantiDey/BMI500_Week11/blob/main/images/ROC.png" width="30%">
+  <img src="https://github.com/SumonKantiDey/BMI500_Week11/blob/main/images/SBP_DBP_vs_Age.png" width="50%">
+  <img src="https://github.com/SumonKantiDey/BMI500_Week11/blob/main/images/ROC.png" width="50%">
 </p>
 
 ### Relevance to model-based machine learning:
